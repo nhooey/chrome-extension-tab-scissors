@@ -79,7 +79,7 @@
     // Submit keycode and an optional hash with booleans for properties 'ctrl' and 'alt'
     unListen: unListen,
     // Turn on or off the whole thing.
-    // Submit a boolean. No arg means true
+    // Submit a boolean value. No arg means true
     setActive: setActive,
     // Keycode constants, fill in your own here
     key: {
