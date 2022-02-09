@@ -1,20 +1,20 @@
 function restoreOptions() {
-	browserAction = localStorage["browser_action"];
+  browserAction = localStorage["browser_action"];
 
-	if(browserAction == "tab_glue"){
-		chrome.browserAction.setTitle({title:"Glue tabs"})
-		chrome.browserAction.setIcon({path:"glueIcon.png"});
-	} else if (browserAction == "tab_glue_all"){
-		chrome.browserAction.setTitle({title:"Glue all tabs"})
-		chrome.browserAction.setIcon({path:"glueIcon.png"});
-	} else if (browserAction == "tab_scissor_cut"){
-		chrome.browserAction.setTitle({title:"Split at selected tab"})
-		chrome.browserAction.setIcon({path:"icon10.png"});
-	} else {
-		chrome.browserAction.setTitle({title:"Split at selected tab"})
-		chrome.browserAction.setIcon({path:"icon10.png"});
-	}
-	//TODO: create an option for always making the window fullscreen size
+  if (browserAction == "tab_glue") {
+    chrome.browserAction.setTitle({title: "Glue tabs"})
+    chrome.browserAction.setIcon({path: "glueIcon.png"});
+  } else if (browserAction == "tab_glue_all") {
+    chrome.browserAction.setTitle({title: "Glue all tabs"})
+    chrome.browserAction.setIcon({path: "glueIcon.png"});
+  } else if (browserAction == "tab_scissor_cut") {
+    chrome.browserAction.setTitle({title: "Split at selected tab"})
+    chrome.browserAction.setIcon({path: "icon10.png"});
+  } else {
+    chrome.browserAction.setTitle({title: "Split at selected tab"})
+    chrome.browserAction.setIcon({path: "icon10.png"});
+  }
+  //TODO: create an option for always making the window fullscreen size
 };
 
 // Saves options to localStorage.
@@ -26,10 +26,10 @@ function save_options() {
   // Update status to let user know options were saved.
   var status = document.getElementById("status");
   status.innerHTML = "Options Saved.";
-  setTimeout(function() {
+  setTimeout(function () {
     status.innerHTML = "";
   }, 750);
-  
+
   restoreOptions();
 }
 
@@ -48,5 +48,6 @@ function restore_options() {
     }
   }
 }
+
 document.addEventListener('DOMContentLoaded', restore_options);
 document.querySelector('#save').addEventListener('click', save_options);
