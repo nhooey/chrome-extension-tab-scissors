@@ -1,9 +1,11 @@
 // The function that gets called on keyup.
 // Tries to find a handler to execute
+// noinspection JSUnresolvedVariable,JSUnresolvedFunction
+
 function driver(event) {
-  var keyCode = event.keyCode, ctrl = !!event.ctrlKey, alt = !!event.altKey;
-  var key = buildKey(keyCode, ctrl, alt);
-  var handler = mappings[key];
+  const keyCode = event.keyCode, ctrl = !!event.ctrlKey, alt = !!event.altKey;
+  const key = buildKey(keyCode, ctrl, alt);
+  const handler = mappings[key];
   if (handler) {
     handler(event);
   }
@@ -21,7 +23,7 @@ function listen(keyCode, handler, options) {
     throw new Error('Submit a handler for keyCode #' + keyCode + '(ctrl:' + !!options.ctrl + ', alt:' + options.alt + ')');
   }
   // Build a key and map handler for the key combination
-  var key = buildKey(keyCode, !!options.ctrl, !!options.alt);
+  const key = buildKey(keyCode, !!options.ctrl, !!options.alt);
   mappings[key] = handler;
 }
 
@@ -29,13 +31,13 @@ function unListen(keyCode, options) {
   // Build default options if there are none submitted
   options = options || defaultOptions;
   // Build a key and map handler for the key combination
-  var key = buildKey(keyCode, !!options.ctrl, !!options.alt);
+  const key = buildKey(keyCode, !!options.ctrl, !!options.alt);
   // Delete what was found
   delete mappings[key];
 }
 
 // Rudimentary attempt att cross-browser-ness
-var xb = {
+const xb = {
   addEventListener: function (element, eventName, handler) {
     if (element.attachEvent) {
       element.attachEvent('on' + eventName, handler);
@@ -54,12 +56,13 @@ var xb = {
 
 function setActive(activate) {
   activate = (typeof activate === 'undefined' || !!activate); // true is default
-  if (activate === active) {
-    return;
-  } // already in the desired state, do nothing
-  var addOrRemove = activate ? 'addEventListener' : 'removeEventListener';
-  xb[addOrRemove](document, 'keyup', driver);
-  active = activate;
+
+  if (activate !== active) {
+    const addOrRemove = activate ? 'addEventListener' : 'removeEventListener';
+    xb[addOrRemove](document, 'keyup', driver);
+    // noinspection JSUndeclaredVariable
+    active = activate;
+  }
 }
 
 // Activate on load
@@ -92,27 +95,27 @@ return {
 // Usage:
 //   listen(key, handler [,options])
 //   unListen(key, [,options])
-npup.listen(npup.key.VK_F1, function (event) {
+npup.listen(npup.key.VK_F1, function () {
   console.log('F1, adding listener on \'B\'');
-  npup.listen(npup.key.VK_B, function (event) {
+  npup.listen(npup.key.VK_B, function () {
     console.log('B');
   });
 });
 
-npup.listen(npup.key.VK_F2, function (event) {
+npup.listen(npup.key.VK_F2, function () {
   console.log('F2, removing listener on \'B\'');
   npup.unListen(npup.key.VK_B);
 });
 
-npup.listen(npup.key.VK_A, function (event) {
+npup.listen(npup.key.VK_A, function () {
   console.log('ctrl-A');
 }, {ctrl: true});
 
-npup.listen(npup.key.VK_A, function (event) {
+npup.listen(npup.key.VK_A, function () {
   console.log('ctrl-alt-A');
 }, {ctrl: true, alt: true});
 
-npup.listen(npup.key.VK_C, function (event) {
+npup.listen(npup.key.VK_C, function () {
   console.log('ctrl-alt-C => It all ends!');
   npup.setActive(false);
 }, {ctrl: true, alt: true});

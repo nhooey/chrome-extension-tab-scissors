@@ -1,3 +1,5 @@
+// noinspection JSUnresolvedVariable,JSUnresolvedFunction
+
 function TabGlue() {
   this.currentWindow = null;
   this.currentWindowId = null;
@@ -6,9 +8,9 @@ function TabGlue() {
   this.selectedTabId = null;
 }
 
-var tgp = TabGlue.prototype;
+const tgp = TabGlue.prototype;
 
-tgp.start = function (tab) {
+tgp.start = function () {
   //restore_options();
   chrome.windows.getCurrent(TabGlue.prototype.getWindows);
 };
@@ -39,26 +41,28 @@ tgp.sortWindows = function (a, b) {
   }
 };
 
+const tabGlue = new TabGlue();
+
 tgp.moveTabs = function (windows) {
   //iterate backwards to avoid skipping elements after removals.
-  for (var i = windows.length - 1; i >= 0; i--) {
+  for (let i = windows.length - 1; i >= 0; i--) {
     //remove windows that should not be merged.
-    if (windows[i].type != "normal" || (tabGlue.glueMinimized == false && windows[i].state == "minimized"))
+    if (windows[i].type !== "normal" || (tabGlue.glueMinimized === false && windows[i].state === "minimized"))
       windows.splice(i, 1);
   }
   windows.sort(TabGlue.prototype.sortWindows);
 
-  var numWindows = windows.length;
+  const numWindows = windows.length;
 
-  var nTargetWindow = windows[0];
-  var nTop = nTargetWindow.top;
-  var nLeft = nTargetWindow.left;
-  var nRight = nTargetWindow.width + nLeft;
-  var nBottom = nTargetWindow.height + nTop;
-  var tabPosition = nTargetWindow.tabs.length;
-  for (var i = 0; i < numWindows; i++) {
-    var win = windows[i];
-    if (win.id != nTargetWindow.id) {
+  const nTargetWindow = windows[0];
+  let nTop = nTargetWindow.top;
+  let nLeft = nTargetWindow.left;
+  let nRight = nTargetWindow.width + nLeft;
+  let nBottom = nTargetWindow.height + nTop;
+  let tabPosition = nTargetWindow.tabs.length;
+  for (let j = 0; j < numWindows; j++) {
+    const win = windows[j];
+    if (win.id !== nTargetWindow.id) {
       if (win.top < nTop) {
         nTop = Math.max(0, win.top);
       }
@@ -71,9 +75,9 @@ tgp.moveTabs = function (windows) {
       if (win.width + win.left > nRight) {
         nRight = win.width + win.left;
       }
-      var numTabs = win.tabs.length;
-      for (var j = 0; j < numTabs; j++) {
-        var tab = win.tabs[j];
+      const numTabs = win.tabs.length;
+      for (j = 0; j < numTabs; j++) {
+        const tab = win.tabs[j];
 
         // Move the tab into the window is furthest to the left and not minimized?
         chrome.tabs.move(tab.id,
@@ -89,12 +93,11 @@ tgp.moveTabs = function (windows) {
     chrome.tabs.update(this.selectedTabId, {"selected": true});
   }
   //resize the result window to include all the other windows' space.
-  var nWidth = nRight - nLeft;
-  var nHeight = nBottom - nTop;
-  var windResizeObj = {"left": nLeft, "top": nTop, "width": nWidth, "height": nHeight, "focused": true};
+  const nWidth = nRight - nLeft;
+  const nHeight = nBottom - nTop;
+  const windResizeObj = {"left": nLeft, "top": nTop, "width": nWidth, "height": nHeight, "focused": true};
   chrome.windows.update(nTargetWindow.id, windResizeObj);
 };
-var tabGlue = new TabGlue();
 
 function tabGlueAction() {
   tabGlue.glueMinimized = false;
@@ -107,15 +110,15 @@ function tabGlueAllAction() {
 }
 
 function restoreOptions() {
-  browserAction = localStorage["browser_action"];
+  let browserAction = localStorage["browser_action"];
 
-  if (browserAction == "tab_glue") {
+  if (browserAction === "tab_glue") {
     chrome.browserAction.setTitle({title: "Glue tabs"})
     chrome.browserAction.setIcon({path: "glueIcon.png"});
-  } else if (browserAction == "tab_glue_all") {
+  } else if (browserAction === "tab_glue_all") {
     chrome.browserAction.setTitle({title: "Glue all tabs"})
     chrome.browserAction.setIcon({path: "glueIcon.png"});
-  } else if (browserAction == "tab_scissor_cut") {
+  } else if (browserAction === "tab_scissor_cut") {
     chrome.browserAction.setTitle({title: "Split at selected tab"})
     chrome.browserAction.setIcon({path: "icon10.png"});
   } else {
@@ -127,12 +130,12 @@ function restoreOptions() {
 restoreOptions();
 
 function browserActionHandler() {
-  browserAction = localStorage["browser_action"];
-  if (browserAction == "tab_glue") {
+  let browserAction = localStorage["browser_action"];
+  if (browserAction === "tab_glue") {
     tabGlueAction();
-  } else if (browserAction == "tab_glue_all") {
+  } else if (browserAction === "tab_glue_all") {
     tabGlueAllAction();
-  } else if (browserAction == "tab_scissor_cut") {
+  } else if (browserAction === "tab_scissor_cut") {
     start();
   } else {
     start();
@@ -143,11 +146,11 @@ chrome.browserAction.onClicked.addListener(browserActionHandler);
 // Set up a handler so that we can merge all the windows.
 chrome.commands.onCommand.addListener(function (command) {
   console.log('Command:', command);
-  if (command == "tab_glue") {
+  if (command === "tab_glue") {
     tabGlueAction();
-  } else if (command == "tab_glue_all") {
+  } else if (command === "tab_glue_all") {
     tabGlueAllAction();
-  } else if (command == "tab_scissor_cut") {
+  } else if (command === "tab_scissor_cut") {
     start();
   }
 });
