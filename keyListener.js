@@ -92,32 +92,3 @@
   };
 
 })();
-
-// Small demo of listen and unListen
-// Usage:
-//   listen(key, handler [,options])
-//   unListen(key, [,options])
-npup.listen(npup.key.VK_F1, function () {
-  console.log('F1, adding listener on \'B\'');
-  npup.listen(npup.key.VK_B, function () {
-    console.log('B');
-  });
-});
-
-npup.listen(npup.key.VK_F2, function () {
-  console.log('F2, removing listener on \'B\'');
-  npup.unListen(npup.key.VK_B);
-});
-
-npup.listen(npup.key.VK_A, function () {
-  console.log('ctrl-A');
-}, {ctrl: true});
-
-npup.listen(npup.key.VK_A, function () {
-  console.log('ctrl-alt-A');
-}, {ctrl: true, alt: true});
-
-npup.listen(npup.key.VK_C, function () {
-  console.log('ctrl-alt-C => It all ends!');
-  npup.setActive(false);
-}, {ctrl: true, alt: true});
