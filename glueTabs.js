@@ -38,6 +38,7 @@ tgp.sortWindows = function (a, b) {
     return -1;
   }
 };
+
 tgp.moveTabs = function (windows) {
   //iterate backwards to avoid skipping elements after removals.
   for (var i = windows.length - 1; i >= 0; i--) {
@@ -122,7 +123,7 @@ function restoreOptions() {
     chrome.browserAction.setIcon({path: "icon10.png"});
   }
   //TODO: create an option for always making the window fullscreen size
-};
+}
 restoreOptions();
 
 function browserActionHandler() {

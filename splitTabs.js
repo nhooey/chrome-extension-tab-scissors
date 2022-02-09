@@ -18,7 +18,6 @@ function getTabs(tabs) {
   tabCount = tabs.length;
   theTabs = tabs;
   chrome.tabs.getSelected(targetWindow.id, setTab);
-
 }
 
 function setTab(theTab) {
@@ -55,8 +54,6 @@ function setTab(theTab) {
   var sum = windWidth + windTop + windHeight + windLeft + rX;
   chrome.windows.create(windCreateRightObj, moveTabs);
   chrome.windows.update(targetWindow.id, windResizeLeftObj);
-
-
 }
 
 function moveTabs(newWindow) {
@@ -70,7 +67,6 @@ function moveTabs(newWindow) {
   }
 
   chrome.tabs.update(selectedTab.id, {"selected": true});
-
 }
 
 // Set up a click handler so that we can split the window.

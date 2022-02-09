@@ -69,20 +69,20 @@ setActive();
 return {
   // Add/replace handler for a keycode.
   // Submit keycode, handler function and an optional hash with booleans for properties 'ctrl' and 'alt'
-  listen: listen
+  listen: listen,
   // Remove handler for a keycode
   // Submit keycode and an optional hash with booleans for properties 'ctrl' and 'alt'
-  , unListen: unListen
+  unListen: unListen,
   // Turn on or off the whole thing.
   // Submit a boolean. No arg means true
-  , setActive: setActive
+  setActive: setActive,
   // Keycode constants, fill in your own here
-  , key: {
-    VK_F1: 112
-    , VK_F2: 113
-    , VK_A: 65
-    , VK_B: 66
-    , VK_C: 67
+  key: {
+    VK_F1: 112,
+    VK_F2: 113,
+    VK_A: 65,
+    VK_B: 66,
+    VK_C: 67
   }
 };
 })
