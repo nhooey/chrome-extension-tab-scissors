@@ -1,8 +1,8 @@
 # Tab Scissors
 
-A Chrome extension (Manifest V2), downloaded from the Chrome Web Store,
-that splits a window into two at the selected tab, or glues a window's
-tabs back together, by its toolbar button.
+A Chrome extension (Manifest V2) that splits a window into two at the
+selected tab, or glues a window's tabs back together, by its toolbar
+button.
 
 - `manifest.json`: the extension's manifest.
 - `splitTabs.js`: the background script that moves the selected tab

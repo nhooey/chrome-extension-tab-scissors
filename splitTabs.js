@@ -53,7 +53,6 @@ function setTab(theTab) {
     "height": windHeight
   };
   const windResizeLeftObj = {"left": windLeft, "top": windTop, "width": windWidth, "height": windHeight};
-  //const sum = windWidth + windTop + windHeight + windLeft + rX;
   chrome.windows.create(windCreateRightObj, moveTabs);
   chrome.windows.update(targetWindow.id, windResizeLeftObj);
 }
@@ -70,7 +69,3 @@ function moveTabs(newWindow) {
 
   chrome.tabs.update(selectedTab.id, {"selected": true});
 }
-
-// Set up a click handler so that we can split the window.
-//    chrome.browserAction.onClicked.addListener(start);
-//	chrome.browserAction.setIcon({path:"icon10.png"});

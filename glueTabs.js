@@ -11,7 +11,6 @@ function TabGlue() {
 const tgp = TabGlue.prototype;
 
 tgp.start = function () {
-  //restore_options();
   chrome.windows.getCurrent(TabGlue.prototype.getWindows);
 };
 
@@ -154,5 +153,3 @@ chrome.commands.onCommand.addListener(function (command) {
     start();
   }
 });
-//chrome.browserAction.setIcon({path:"glueIcon.png"});
-//chrome.browserAction.onClicked.addListener(start);
