@@ -20,4 +20,6 @@ unpacked extension at `chrome://extensions` with Developer mode on, and
 try it by hand.
 
 `nix develop` installs the project's agent skills into
-`.agents/skills/`, and `nix flake check` checks the flake.
+`.agents/skills/`. `nix fmt` formats the tree with treefmt (nixfmt and
+prettier), and `nix flake check` checks the flake and fails on an
+unformatted file.

@@ -8,6 +8,10 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
     systems.url = "github:nix-systems/default";
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # The builder library, not a skill: it exports the
     # `flakeModules.devshellSkills` module for the dev shell. The dev shell's
     # skills live in the `skills-devshell/` sub-flake, invoked at runtime, so
@@ -22,13 +26,26 @@
     { flake-parts, ... }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = import inputs.systems;
-      imports = [ inputs.agent-skill-flake.flakeModules.devshellSkills ];
+      imports = [
+        inputs.agent-skill-flake.flakeModules.devshellSkills
+        inputs.treefmt-nix.flakeModule
+      ];
 
-      agent-skill-flake.devshellSkills = {
-        name = "chrome-extension-tab-scissors";
-        # No formatter is configured, so leave out the check / fmt /
-        # update-flake trio's `fmt`; keep only the skills commands.
-        includeStandardCommands = false;
+      agent-skill-flake.devshellSkills.name = "chrome-extension-tab-scissors";
+
+      perSystem = {
+        # `nix fmt` formats the tree, and `nix flake check` fails on an
+        # unformatted file through treefmt-nix's `checks.treefmt`.
+        treefmt = {
+          projectRootFile = "flake.nix";
+          programs.nixfmt.enable = true;
+          programs.prettier.enable = true;
+          settings.global.excludes = [
+            ".agents/**" # installed third-party skills, not ours to reformat
+            ".claude/**"
+            "*.png"
+          ];
+        };
       };
     };
 }
