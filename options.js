@@ -2,20 +2,20 @@ function restoreOptions() {
   browserAction = localStorage["browser_action"];
 
   if (browserAction == "tab_glue") {
-    chrome.browserAction.setTitle({title: "Glue tabs"})
-    chrome.browserAction.setIcon({path: "glueIcon.png"});
+    chrome.browserAction.setTitle({ title: "Glue tabs" });
+    chrome.browserAction.setIcon({ path: "glueIcon.png" });
   } else if (browserAction == "tab_glue_all") {
-    chrome.browserAction.setTitle({title: "Glue all tabs"})
-    chrome.browserAction.setIcon({path: "glueIcon.png"});
+    chrome.browserAction.setTitle({ title: "Glue all tabs" });
+    chrome.browserAction.setIcon({ path: "glueIcon.png" });
   } else if (browserAction == "tab_scissor_cut") {
-    chrome.browserAction.setTitle({title: "Split at selected tab"})
-    chrome.browserAction.setIcon({path: "icon10.png"});
+    chrome.browserAction.setTitle({ title: "Split at selected tab" });
+    chrome.browserAction.setIcon({ path: "icon10.png" });
   } else {
-    chrome.browserAction.setTitle({title: "Split at selected tab"})
-    chrome.browserAction.setIcon({path: "icon10.png"});
+    chrome.browserAction.setTitle({ title: "Split at selected tab" });
+    chrome.browserAction.setIcon({ path: "icon10.png" });
   }
   //TODO: create an option for always making the window fullscreen size
-};
+}
 
 // Saves options to localStorage.
 function save_options() {

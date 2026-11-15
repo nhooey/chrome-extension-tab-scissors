@@ -46,13 +46,18 @@ function setTab(theTab) {
   rX = windLeft + windWidth;
 
   const windCreateRightObj = {
-    "tabId": selectedTab.id,
-    "left": rX,
-    "top": windTop,
-    "width": windWidth,
-    "height": windHeight
+    tabId: selectedTab.id,
+    left: rX,
+    top: windTop,
+    width: windWidth,
+    height: windHeight,
   };
-  const windResizeLeftObj = {"left": windLeft, "top": windTop, "width": windWidth, "height": windHeight};
+  const windResizeLeftObj = {
+    left: windLeft,
+    top: windTop,
+    width: windWidth,
+    height: windHeight,
+  };
   chrome.windows.create(windCreateRightObj, moveTabs);
   chrome.windows.update(targetWindow.id, windResizeLeftObj);
 }
@@ -63,9 +68,9 @@ function moveTabs(newWindow) {
   for (let j = selectedTabPosition + 1; j < numTabs; j++) {
     const tab = theTabs[j];
     // Move the tab into the new window.
-    chrome.tabs.move(tab.id, {"windowId": newWindow.id, "index": tabPosition});
+    chrome.tabs.move(tab.id, { windowId: newWindow.id, index: tabPosition });
     tabPosition++;
   }
 
-  chrome.tabs.update(selectedTab.id, {"selected": true});
+  chrome.tabs.update(selectedTab.id, { selected: true });
 }
