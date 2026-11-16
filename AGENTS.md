@@ -27,16 +27,29 @@ button.
   file is complete and commented and tests the merge;
   `tabLogic.test.js` tests the pure functions; `background.test.js`
   loads the background scripts in the manifest's order against a
-  recording fake `chrome` and clicks the toolbar button.
+  recording fake `chrome` and clicks the toolbar button;
+  `cli.test.js` tests `tab-scissors`.
+- `bin/tab-scissors.js`: the repository's commands as one tool (see
+  below).
 
 ## Build and test
 
-There is no build step. `node --test test/*.test.js` runs the tests,
-and `nix flake check` runs them too. To try the extension, load the
-directory as an unpacked extension at `chrome://extensions` with
-Developer mode on.
+There is no build step. The dev shell (`nix develop`) puts the
+repository's commands on its `PATH` as one tool, `tab-scissors`, and
+`menu` lists it:
 
-`nix develop` installs the project's agent skills into
-`.agents/skills/`. `nix fmt` formats the tree with treefmt (nixfmt and
-prettier), and `nix flake check` checks the flake and fails on an
-unformatted file.
+- `tab-scissors test [<suite>...]`: the `node:test` suites, all or
+  the named ones (`tab-scissors test config`).
+- `tab-scissors check`: `nix flake check`, the tests and the
+  formatting check.
+- `tab-scissors fmt`: formats the tree with treefmt (nixfmt and
+  prettier).
+- `tab-scissors update`: updates the flake's inputs.
+
+`tab-scissors --help` and `tab-scissors <command> --help` give the
+options. The tool lives in `bin/tab-scissors.js`, and
+`test/cli.test.js` tests its argument parsing. Entering the dev shell
+also installs the project's agent skills into `.agents/skills/`.
+
+To try the extension, load the directory as an unpacked extension at
+`chrome://extensions` with Developer mode on.
