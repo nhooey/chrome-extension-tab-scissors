@@ -91,6 +91,20 @@ test("loading sets the toolbar button from the saved action", () => {
   ]);
 });
 
+test("loading with no saved action sets the split's button", () => {
+  const { calls } = load({ windows: [] });
+  assert.deepEqual(named(calls, "browserAction.setTitle"), [
+    [{ title: "Split at selected tab" }],
+  ]);
+});
+
+test("loading refuses a saved action no setting allows", () => {
+  assert.throws(
+    () => load({ windows: [], storage: { browser_action: "tab_glu" } }),
+    /Setting "browser_action"/,
+  );
+});
+
 test("clicking with no saved action splits at the selected tab", () => {
   const { calls, click } = load({
     windows: [window(1, 100, [10, 11, 12, 13])],

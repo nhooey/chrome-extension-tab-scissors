@@ -2,7 +2,7 @@ const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const {
   MIN_WINDOW_WIDTH,
-  actionFor,
+  BUTTONS,
   buttonFor,
   splitIndex,
   splitLayout,
@@ -12,19 +12,15 @@ const {
   growBounds,
   windowFor,
 } = require("../tabLogic.js");
+const { SETTINGS } = require("../config.js");
 
 const tabs = (...ids) => ids.map((id) => ({ id }));
 
-test("actionFor keeps each known action", () => {
-  for (const action of ["tab_glue", "tab_glue_all", "tab_scissor_cut"]) {
-    assert.equal(actionFor(action), action);
-  }
-});
-
-test("actionFor falls back to the split for unset or unknown values", () => {
-  for (const stored of [undefined, null, "", "tab_glu", "toString"]) {
-    assert.equal(actionFor(stored), "tab_scissor_cut");
-  }
+test("every browser_action value has a toolbar button, and only those", () => {
+  assert.deepEqual(
+    Object.keys(BUTTONS).sort(),
+    [...SETTINGS.browser_action].sort(),
+  );
 });
 
 test("buttonFor gives each action its title and icon", () => {
@@ -40,7 +36,6 @@ test("buttonFor gives each action its title and icon", () => {
     title: "Split at selected tab",
     icon: "icon10.png",
   });
-  assert.deepEqual(buttonFor(undefined), buttonFor("tab_scissor_cut"));
 });
 
 test("splitIndex splits at the selected tab", () => {

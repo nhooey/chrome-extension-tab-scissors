@@ -6,25 +6,16 @@
 // Chrome's minimum window width, in pixels.
 const MIN_WINDOW_WIDTH = 196;
 
-const DEFAULT_ACTION = "tab_scissor_cut";
-
 const BUTTONS = {
   tab_glue: { title: "Glue tabs", icon: "glueIcon.png" },
   tab_glue_all: { title: "Glue all tabs", icon: "glueIcon.png" },
   tab_scissor_cut: { title: "Split at selected tab", icon: "icon10.png" },
 };
 
-// The toolbar action for a value saved by the options page; anything unknown
-// or unset falls back to the split.
-function actionFor(stored) {
-  return Object.prototype.hasOwnProperty.call(BUTTONS, stored)
-    ? stored
-    : DEFAULT_ACTION;
-}
-
-// The toolbar button's title and icon for a saved value.
-function buttonFor(stored) {
-  return BUTTONS[actionFor(stored)];
+// The toolbar button's title and icon for a `browser_action` setting, one of
+// the values config.js allows.
+function buttonFor(action) {
+  return BUTTONS[action];
 }
 
 // The index of the first tab to move into the new window, or null when the
@@ -104,7 +95,7 @@ function windowFor(bounds) {
 if (typeof module !== "undefined") {
   module.exports = {
     MIN_WINDOW_WIDTH,
-    actionFor,
+    BUTTONS,
     buttonFor,
     splitIndex,
     splitLayout,

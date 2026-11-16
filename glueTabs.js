@@ -83,7 +83,7 @@ function tabGlueAllAction() {
 }
 
 function restoreOptions() {
-  const button = buttonFor(localStorage["browser_action"]);
+  const button = buttonFor(loadConfig(localStorage).browser_action);
   chrome.browserAction.setTitle({ title: button.title });
   chrome.browserAction.setIcon({ path: button.icon });
   //TODO: create an option for always making the window fullscreen size
@@ -91,7 +91,7 @@ function restoreOptions() {
 restoreOptions();
 
 function browserActionHandler() {
-  const action = actionFor(localStorage["browser_action"]);
+  const action = loadConfig(localStorage).browser_action;
   if (action === "tab_glue") {
     tabGlueAction();
   } else if (action === "tab_glue_all") {

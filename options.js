@@ -1,27 +1,18 @@
-function restoreOptions() {
-  browserAction = localStorage["browser_action"];
+// The options page. options.html loads defaults.js, config.js and tabLogic.js
+// before this file, for loadConfig, saveSetting and buttonFor.
 
-  if (browserAction == "tab_glue") {
-    chrome.browserAction.setTitle({ title: "Glue tabs" });
-    chrome.browserAction.setIcon({ path: "glueIcon.png" });
-  } else if (browserAction == "tab_glue_all") {
-    chrome.browserAction.setTitle({ title: "Glue all tabs" });
-    chrome.browserAction.setIcon({ path: "glueIcon.png" });
-  } else if (browserAction == "tab_scissor_cut") {
-    chrome.browserAction.setTitle({ title: "Split at selected tab" });
-    chrome.browserAction.setIcon({ path: "icon10.png" });
-  } else {
-    chrome.browserAction.setTitle({ title: "Split at selected tab" });
-    chrome.browserAction.setIcon({ path: "icon10.png" });
-  }
+function restoreOptions() {
+  const button = buttonFor(loadConfig(localStorage).browser_action);
+  chrome.browserAction.setTitle({ title: button.title });
+  chrome.browserAction.setIcon({ path: button.icon });
   //TODO: create an option for always making the window fullscreen size
 }
 
-// Saves options to localStorage.
+// Saves options to localStorage, keeping only what differs from the defaults.
 function save_options() {
   var select = document.getElementById("key");
   var key = select.children[select.selectedIndex].value;
-  localStorage["browser_action"] = key;
+  saveSetting(localStorage, "browser_action", key);
 
   // Update status to let user know options were saved.
   var status = document.getElementById("status");
@@ -33,12 +24,9 @@ function save_options() {
   restoreOptions();
 }
 
-// Restores select box state to saved value from localStorage.
+// Sets the select box to the setting in effect.
 function restore_options() {
-  var action = localStorage["browser_action"];
-  if (!action) {
-    action = "tab_scissor_cut";
-  }
+  var action = loadConfig(localStorage).browser_action;
   var select = document.getElementById("key");
   for (var i = 0; i < select.children.length; i++) {
     var child = select.children[i];
