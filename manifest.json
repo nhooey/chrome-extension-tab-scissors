@@ -1,11 +1,13 @@
 {
-  "update_url": "https://clients2.google.com/service/update2/crx",
   "manifest_version": 2,
   "name": "Tab Scissors",
   "description": "This extension splits a window into two at the selected tab.",
   "version": "1.2",
   "background": {
     "scripts": [
+      "defaults.js",
+      "config.js",
+      "tabLogic.js",
       "glueTabs.js",
       "splitTabs.js"
     ],
@@ -18,7 +20,5 @@
   "commands": {},
   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCv/5hYQiHxNA1EeXIL7Y9yVeuQ+RFwGCCHK/nQGplophFkQ5PT6zY9LQqiubDPhaZc6ujLgoXS/ELgtiXaJAk2saUP1rsWg8SmQmNkNaMlA1gw0DOn9ukQa4ydX8x8quqMJD6w54Yh0mR8+eB+xK5vwa/+FLNwphav+gyvJUFG4wIDAQAB",
   "options_page": "options.html",
-  "permissions": [
-    "tabs"
-  ]
+  "permissions": ["tabs"]
 }
