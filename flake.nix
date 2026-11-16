@@ -31,12 +31,31 @@
         inputs.treefmt-nix.flakeModule
       ];
 
-      agent-skill-flake.devshellSkills.name = "chrome-extension-tab-scissors";
+      agent-skill-flake.devshellSkills = {
+        name = "chrome-extension-tab-scissors";
+        # `tab-scissors` carries check, fmt and update itself, so the module's
+        # stock trio would only list them twice.
+        includeStandardCommands = false;
+      };
 
       perSystem =
         { pkgs, ... }:
         {
-          # `nix flake check` runs the Node tests in test/.
+          # The repository's commands, as one tool: bin/tab-scissors.js, run
+          # from the checkout so an edit takes effect without re-entering.
+          devshells.default = {
+            packages = [ pkgs.nodejs ];
+            commands = [
+              {
+                category = "dev";
+                name = "tab-scissors";
+                help = "The repository's commands: test, check, fmt, update (tab-scissors --help)";
+                command = ''exec ${pkgs.nodejs}/bin/node "$PRJ_ROOT/bin/tab-scissors.js" "$@"'';
+              }
+            ];
+          };
+
+          # `nix flake check` runs the Node tests in test/, through the tool.
           checks.tests =
             pkgs.runCommand "tab-scissors-tests"
               {
@@ -45,7 +64,7 @@
               ''
                 cp -r ${./.} src
                 cd src
-                node --test test/*.test.js
+                node bin/tab-scissors.js test
                 touch $out
               '';
 
