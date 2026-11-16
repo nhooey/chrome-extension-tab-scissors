@@ -33,19 +33,34 @@
 
       agent-skill-flake.devshellSkills.name = "chrome-extension-tab-scissors";
 
-      perSystem = {
-        # `nix fmt` formats the tree, and `nix flake check` fails on an
-        # unformatted file through treefmt-nix's `checks.treefmt`.
-        treefmt = {
-          projectRootFile = "flake.nix";
-          programs.nixfmt.enable = true;
-          programs.prettier.enable = true;
-          settings.global.excludes = [
-            ".agents/**" # installed third-party skills, not ours to reformat
-            ".claude/**"
-            "*.png"
-          ];
+      perSystem =
+        { pkgs, ... }:
+        {
+          # `nix flake check` runs the Node tests in test/.
+          checks.tests =
+            pkgs.runCommand "tab-scissors-tests"
+              {
+                nativeBuildInputs = [ pkgs.nodejs ];
+              }
+              ''
+                cp -r ${./.} src
+                cd src
+                node --test test/*.test.js
+                touch $out
+              '';
+
+          # `nix fmt` formats the tree, and `nix flake check` fails on an
+          # unformatted file through treefmt-nix's `checks.treefmt`.
+          treefmt = {
+            projectRootFile = "flake.nix";
+            programs.nixfmt.enable = true;
+            programs.prettier.enable = true;
+            settings.global.excludes = [
+              ".agents/**" # installed third-party skills, not ours to reformat
+              ".claude/**"
+              "*.png"
+            ];
+          };
         };
-      };
     };
 }
