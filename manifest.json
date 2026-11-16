@@ -4,7 +4,7 @@
   "description": "This extension splits a window into two at the selected tab.",
   "version": "1.2",
   "background": {
-    "scripts": ["glueTabs.js", "splitTabs.js"],
+    "scripts": ["tabLogic.js", "glueTabs.js", "splitTabs.js"],
     "persistent": false
   },
   "browser_action": {

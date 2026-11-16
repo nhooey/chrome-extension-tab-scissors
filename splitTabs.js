@@ -1,5 +1,5 @@
 // Called when the user clicks on the browser action.
-// noinspection JSUnresolvedVariable,JSUnresolvedFunction,JSUndeclaredVariable
+// noinspection JSUnresolvedVariable,JSUnresolvedFunction
 
 let theTabs = null;
 let selectedTabPosition = null;
@@ -23,43 +23,14 @@ function getTabs(tabs) {
 }
 
 function setTab(theTab) {
-  selectedTab = theTab;
-  for (let k = 0; k < theTabs.length; k++) {
-    if (theTabs[k].id === selectedTab.id) {
-      selectedTabPosition = k;
-      break;
-    }
+  selectedTabPosition = splitIndex(theTabs, theTab.id);
+  if (selectedTabPosition === null) {
+    return;
   }
-  if (selectedTabPosition === 0) {
-    selectedTabPosition = 1;
-    if (theTabs.length < 2) {
-      return;
-    }
-    selectedTab = theTabs[selectedTabPosition];
-  }
-  const halfWidth = Math.round(targetWindow.width / 2);
-  //196 is chrome's minimum window width.
-  windWidth = Math.max(196, halfWidth);
-  windTop = targetWindow.top;
-  windHeight = targetWindow.height;
-  windLeft = targetWindow.left;
-  rX = windLeft + windWidth;
-
-  const windCreateRightObj = {
-    tabId: selectedTab.id,
-    left: rX,
-    top: windTop,
-    width: windWidth,
-    height: windHeight,
-  };
-  const windResizeLeftObj = {
-    left: windLeft,
-    top: windTop,
-    width: windWidth,
-    height: windHeight,
-  };
-  chrome.windows.create(windCreateRightObj, moveTabs);
-  chrome.windows.update(targetWindow.id, windResizeLeftObj);
+  selectedTab = theTabs[selectedTabPosition];
+  const halves = splitLayout(targetWindow);
+  chrome.windows.create({ tabId: selectedTab.id, ...halves.right }, moveTabs);
+  chrome.windows.update(targetWindow.id, halves.left);
 }
 
 function moveTabs(newWindow) {
