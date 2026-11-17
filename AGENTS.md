@@ -49,7 +49,9 @@ repository's commands on its `PATH` as one tool, `tab-scissors`, and
 `tab-scissors --help` and `tab-scissors <command> --help` give the
 options. The tool lives in `bin/tab-scissors.js`, and
 `test/cli.test.js` tests its argument parsing. Entering the dev shell
-also installs the project's agent skills into `.agents/skills/`.
+also installs the project's agent skills into `.agents/skills/`:
+skillspkgs' `browser-extensions-and-game-mods` combination, with no
+additions.
 
 To try the extension, load the directory as an unpacked extension at
 `chrome://extensions` with Developer mode on.
